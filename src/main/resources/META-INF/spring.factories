@@ -1,0 +1,6 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.ihltx.utility.httpclient.RestTemplateAutoConfiguration,\
+com.ihltx.utility.jwt.JwtAutoConfiguration,\
+com.ihltx.utility.upload.UploadAutoConfiguration,\
+com.ihltx.utility.mail.MailAutoConfiguration,\
+com.ihltx.utility.log.LoggerBuilderAutoConfiguration

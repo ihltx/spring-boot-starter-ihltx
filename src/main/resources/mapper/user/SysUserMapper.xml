@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace:填写映射当前的Mapper接口，所有的增删改查的参数和返回值类型，
+		就可以直接填写缩写，不区分大小写，直接通过方法名去找类型-->
+<mapper namespace="com.ihltx.utility.acl.mapper.SysUserMapper">
+    <select id="getModulesByUserId" resultType="com.ihltx.utility.acl.entity.SysModule">
+        SELECT moduleId , moduleCode , moduleTermType , moduleName , moduleShortName , moduleShopVersion , moduleIcon , moduleUrl ,
+               moduleQueryString , moduleParentId , moduleTreePath
+        FROM sys_modules WHERE language = #{language} AND shopId = #{shopId} AND moduleIsDeleted = 0
+        AND moduleId IN (
+            SELECT moduleId FROM sys_role_modules WHERE language = #{language} AND shopId = #{shopId} AND roleId IN (
+                    SELECT sur.roleId FROM sys_user_roles AS sur INNER JOIN sys_roles AS sr ON sur.roleId = sr.roleId WHERE sur.userId = #{userId} AND sr.roleIsDeleted = 0
+                    )
+            UNION
+            SELECT moduleId FROM sys_user_modules WHERE language = #{language} AND shopId = #{shopId} AND userId = #{userId}
+        )
+    </select>
+</mapper>

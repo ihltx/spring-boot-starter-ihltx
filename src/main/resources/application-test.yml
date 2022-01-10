@@ -1,0 +1,794 @@
+# Specify the Web server port
+server:
+  port: 8080
+
+
+# Specify static resource paths
+spring:
+  session:
+    store-type: none
+  redis:
+    host: 192.168.1.121
+    port: 6379
+    password: 123456
+    database: 0
+    ssl: false
+    timeout: 3000
+
+  servlet:
+    multipart:
+      #Specifies the maximum size of the uploaded file
+      max-file-size: 5MB
+      #Specifies the maximum size of the request
+      max-request-size: 5MB
+  web:
+    resources:
+      #Specify the static resource (.css,.js,.jpg, etc.) folders of the web application.
+      #All static resources under these folders can be accessed directly based on / relative paths
+      static-locations: "file:D:/static/storage/,classpath:/templates/,classpath:/static/"
+
+  # mybatis plus dataSource configuration
+  datasource:
+    dynamic:
+      #Specifies the name of the master data source
+      primary: default
+      #Specifies whether strict mode is enabled
+      #If strict mode is true, an exception will be thrown when the specified data source is not matched,
+      #otherwise the primary data source will be used
+      strict: false
+      #datasource configuration
+      datasource:
+        #Configure default data source
+        default:
+          #Specify data source driver
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          #Specify data source url
+          url: jdbc:mysql://localhost:3306/defaultdb?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
+          #Specify data source username
+          username: root
+          #Specify data source password
+          password: 123456
+        #Configure system data source
+        system:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://localhost:3306/systemdb?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
+          username: root
+          password: 123456
+        #Configure user data source
+        user:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://localhost:3306/userdb?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
+          username: root
+          password: 123456
+
+  ## Specify the Rabbitmq message queue server configuration
+  rabbitmq:
+    listener:
+      direct:
+        auto-startup: true
+      simple:
+        auto-startup: true
+    #addresses: 127.0.0.1:5672
+    host: 192.168.1.121
+    # Specify the Rabbitmq message queue server port
+    port: 5672
+    # Specify the Rabbitmq message queue server username
+    username: admin
+    # Specify the Rabbitmq message queue server password
+    password: admin
+    #virtual-host: /
+
+
+# Logger Config
+logging:
+  level:
+    # com.baomidou.mybatisplus.samples.quickstart level is debug
+    com.baomidou.mybatisplus.samples.quickstart: debug
+
+# mybatis-plus Config
+mybatis-plus:
+  configuration:
+    #is map field name underline to camel case rule
+    map-underscore-to-camel-case: false
+    #is output sql to console
+  #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  #Configure the scanning path of mapper.xml. classpath* indicates all classpaths.
+  mapper-locations: classpath*:/mapper/**/*Mapper.xml
+
+ihltx:
+
+  # Specify the unionsql httpclient(RestTemplateUtil) component configuration
+  # Specify httpclient component readTimeout
+  httpclient:
+    readTimeout: 30000
+    # Specify httpclient component connectTimeout
+    connectTimeout: 10000
+    # Specify httpclient component enableRibbon, currently not supported
+    enableRibbon: false
+
+
+  # Specify jwt component(JwtUtil) configuration
+  jwt:
+    # Specify jwt expires, unit: seconds
+    expireSeconds: 7200
+    # Specify jwt secertType: HMAC256|HMAC384|HMAC512
+    secertType: HMAC256
+    # Specify jwt secertKey
+    secertKey: 9dacba0ee1fa655f317ebf2278f7fdf4
+
+
+  # Specify the configuration associated with the unionsql upload component(UploadUtil)
+  upload:
+    # Specify the upload file name rule to support only MD5 or ORIGINAL,
+    # rename the file name based on MD5 if MD5,
+    # and use the original file name if ORIGINAL.
+    uploadFilenameRule: MD5
+    # Specifies the file extensions allowed to be uploaded,
+    # allowing multiple extensions to be set at intervals.
+    uploadAllowExts: txt,jpg,bmp,gif,png,jpeg,doc,docx,xls,xlsx,zip,rar
+    # Specifies the maximum file size allowed for uploads, unit: byte
+    maxUploadFileSize: 10485760
+    # Specifies the base path for the upload file storage, which must end with /
+    storagePath: "d:/static/storage/"
+    # Specify the upload file path,
+    # this path in unionsql.upload.storagePath configuration folder,
+    # %SHOP_ID% variable is the current shop id.
+    uploadPath: "%SHOP_ID%/runtime/upload/"
+    # Specifies the Web path prefix for the upload file,
+    # to get the web path accessible to the upload file.
+    webPathPrefix: /static/
+
+
+  #mail configuration
+  mail:
+    #Specify mail delivery protocol,for exampl: smtp
+    protocol: smtp
+    #Specify the host to use for sending mail
+    host: smtp.qq.com
+    #Specify the port to use for sending mail
+    port: 465
+    #Specify the username to use for sending mail
+    username: 84611913@qq.com
+    #Specify the password to use for sending mail
+    password: 878787988998
+    #Specify the default encoding to use for sending mail
+    defaultEncoding: utf-8
+    #Specify the email address of the sender
+    from: 84611913@qq.com
+    #Specify the name of the sender
+    fromName: 刘林
+    #Specify additional configuration information for mail sending
+    properties:
+      #Specifies whether mail sending authentication is enabled
+      "mail.smtp.auth": true
+      #Specifies whether TLS is enabled for mail sending
+      "mail.smtp.starttls.enable": true
+      #Specifies whether TLS is required for mail sending
+      "mail.smtp.starttls.required": true
+      #Specifies the fully qualified class name used by the mail sending socket factory
+      "mail.smtp.socketFactory.class": "javax.net.ssl.SSLSocketFactory"
+      #Specifies the port used by the mail sending socket factory
+      "mail.smtp.socketFactory.port ": 465
+      #Specifies whether the mail sending socket factory uses fallback
+      "mail.smtp.socketFactory.fallback": false
+      #Specifies whether SSL is enabled for mail sending
+      "mail.smtp.ssl.enable": true
+
+
+
+  # Specify the ihltx log component(LoggerBuilder) configuration
+  log:
+    # Specify the logging level, from low to high: ALL TRACE DEBUG INFO WARN ERROR
+    level: ALL
+    # Specify the logging additive
+    additive: false
+    # Specify the logging prudent
+    prudent: false
+    # Specify the logging pattern
+    # Specify enable ConsoleAppenderlog output
+    enableConsoleAppender: true
+    # %d{yyyy-MM-dd HH:mm:ss.SSS}  %highlight(%-5level) %magenta(%4line) --- [%15t] %cyan(%-40logger{40}) : %m%n
+    consolePattern: "%d{yyyy-MM-dd HH:mm:ss.SSS}  %-5level %4line  --- [%15t] %-40logger{40} : %m%n"
+    # Specify enable MyDbAppender log output
+    #The {system} mybatis plus data source must be configured, and the following data table must be created in the {system} data source:
+    #must created table:
+    #sql: CREATE TABLE `syslogs` (`logId`  bigint(20) NOT NULL AUTO_INCREMENT COMMENT '日志ID' ,`shopId`  bigint(20) NOT NULL COMMENT '所属ShopId' ,`logName`  varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '日志名称' ,`logLevel`  varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '日志等级' ,`logThreadName`  varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '线程名称' ,`logCallClassName`  varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '类名' ,`logCallMethodName`  varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '方法名称' ,`logFileName`  varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '文件名' ,`logCallLine`  varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '行号' ,`logMessage`  text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '日志内容' ,`logCreated`  datetime NOT NULL COMMENT '日志创建时间' ,PRIMARY KEY (`logId`)) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci AUTO_INCREMENT=1 ROW_FORMAT=DYNAMIC;
+    enableMybatisDbAppender: true
+    # %d{yyyy-MM-dd HH:mm:ss.SSS}  %-5level %4line  --- [%15t] %-40logger{40} : %m%n
+    mybatisDbPattern: "%d{yyyy-MM-dd HH:mm:ss.SSS}  %-5level %4line  --- [%15t] %-40logger{40} : %m%n"
+    # Specify enable RollingFileAppender log output
+    enableRollingFileAppender: true
+    # %d{yyyy-MM-dd HH:mm:ss.SSS}  %-5level %4line  --- [%15t] %-40logger{40} : %m%n
+    rollingFilePattern: "%d{yyyy-MM-dd HH:mm:ss.SSS}  %-5level %4line  --- [%15t] %-40logger{40} : %m%n"
+    # Specify the log store path, with %SHOP_ID% is the current shop id.
+    storagePath: "D:/static/storage/%SHOP_ID%/runtime/logs/"
+    # Specify the logging rollingName
+    rollingName: ".%d{yyyy-MM-dd}.%i"
+    # Specify the logging file maxFileSize
+    maxFileSize: 2048KB
+    # Specify the logging maxHistory
+    maxHistory: 15
+    # Specify the logging totalFileSize
+    totalFileSize: 32GB
+    #Set different log output levels for special classes or packages
+    #  **  -- is a multi-level package name or class name wildcard that contains at least one package name or class name
+    #  *   -- is a package name or class name, the name does not contain an English comma
+  #    loggers:
+  #      "[com.ihltx.utility.task.**]":
+  #        level: ERROR
+  #      "[com.ihltx.utility.redis.**]":
+  #        level: ERROR
+  #      "[com.ihltx.store.web.task.**]":
+  #        level: ERROR
+  #      "[com.ihltx.utility.task.task.**.10]":
+  #        level: ALL
+
+
+  # Specify the basic name of the multi-language message,
+  # i18n/messages is the file named messages.properties ,
+  # the file name should be messages_en_US.properties if it is In American English,
+  # and messages_zh_CN.properties if it is in Simplified Chinese, etc.
+  i18n:
+    #Specifies whether strict mode is enabled
+    #If strict mode is enabled, language related configuration or database settings must be performed. The language supported by the current shopid and the current language will be determined by the configuration or database settings.
+    #If strict mode is not enabled, the current language of the current shopid is determined by the browser or user, and the current shopid does not have a list of supported languages。
+    enableStrictMode: true
+    #Specify the store language resource file base folder path other than the global language resource file, with %SHOP_ID% is the current shop id.
+    # classpath: is allowed to the current class path
+    # if is global language resource, then  %SHOP_ID% is empty.
+    basePath: "D:/static/storage/%SHOP_ID%/i18n"
+    #Specify the basic name of the language resource file.
+    #If it is a global language resource file , it should be basePath/messages.properties or basePath/messages_zh_CN.properties .
+    #If it is a shop language resource file, it should be basePath/0/messages.properties or basePath/0/messages_zh_CN.properties .
+    baseName: messages
+    # Specify  Current Language parameterName of request, session attribute Name, header Name  and View Name
+    requestAndSessionAndViewLanguageName: APP_CURRENT_LANGUAGE
+    # Specify i18n enable  cache, if null is not use cache
+    enableCache: true
+    # Specify custom i18n cache prefix
+    cachePrefix: languages
+    # Specify i18n service enable DataSource,if false is not use database
+    #The {system} mybatis plus data source must be configured, and the following data table must be created in the {system} data source:
+    #must create tables:
+    #sql:
+    # CREATE TABLE `languages` (`langId`  bigint(20) NOT NULL AUTO_INCREMENT ,`langCode`  varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '语言代码，唯一，如：zh-CN或zh' ,`shopId`  bigint(20) NOT NULL DEFAULT 0 COMMENT ' 所属shopId' ,`langName`  varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '语言名称，唯一' ,`langRemark`  varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '语言备注' ,`langCssClass`  varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '语言前端css样式类，用于呈现语言' ,`langOrder`  int(11) NOT NULL DEFAULT 100 COMMENT '语言排序，越大越靠前' ,`langEnabled`  tinyint(4) NOT NULL DEFAULT 1 COMMENT '语言状态，0--禁用  1--启用' ,`langIsDefault`  tinyint(4) NOT NULL DEFAULT 0 COMMENT '是否默认语言  0--否   1--是，仅有一种语言能够成为shopId的默认语言' ,`langDeleted`  tinyint(4) NOT NULL DEFAULT 0 COMMENT '语言是否软删除  0--否   1--是' ,`langCreated`  datetime NOT NULL COMMENT '语言创建时间' ,`langUpdated`  datetime NOT NULL COMMENT '语言修改时间' ,PRIMARY KEY (`langId`),UNIQUE INDEX `languageCode_UNIQUE` (`shopId`, `langCode`) USING BTREE ,UNIQUE INDEX `languageName_UNIQUE` (`shopId`, `langName`) USING BTREE )ENGINE=InnoDBDEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='语言表，系统支持的所有语言列表，如果需要新增一种语言需要增加相应的/i18n/message_xxx_XXX.properties文件，同时在系统后台功能中新增语言及相应的语言资源并在前端通过相应的自定义标签<@language code=\"\" params=\"\"/>引用相应的资源，后台通过LanguageUtil.get(String key,String[] params)获取相应的语言资源，语言资源虽然均保存到数据库中，但将通过Redis缓存相应的语言资源并生成相应的.js资源文件包来加速前台及后台性能与速度，相应的语言资源包发生变化则Redis以及.js语言资源缓存及文件自动失效。' AUTO_INCREMENT=1000 ROW_FORMAT=DYNAMIC;
+    # CREATE TABLE `languageresourcenames` (`langResNameId`  bigint(20) NOT NULL AUTO_INCREMENT ,`shopId`  bigint(20) NOT NULL COMMENT '所属店铺ID，0店铺为模板店铺，默认情况下，新店铺将从0店铺复制所有语言名称' ,`langResName`  varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '语言资源名称，在同一店铺中唯一' ,`langResNameRemark`  text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '资源名称描述' ,`langResNameType`  tinyint(4) NOT NULL DEFAULT 0 COMMENT '语言资源名称类型：0--文字   1--图片   2--音频    3--视频' ,`langResNameIsCstomize`  tinyint(4) NOT NULL COMMENT '是否店铺自定义资源名称  0--系统   1--店铺自定义' ,`langResNameOrder`  int(11) NOT NULL DEFAULT 100 COMMENT '语言资源名称排序' ,`langResNameDeleted`  tinyint(4) NOT NULL DEFAULT 0 COMMENT '是否软删除 0--否  1--是' ,`langResNameCreated`  datetime NULL DEFAULT NULL COMMENT '创建时间' ,`langResNameUpdated`  datetime NULL DEFAULT NULL COMMENT '修改时间' ,PRIMARY KEY (`langResNameId`),UNIQUE INDEX `shopId_langResName` (`shopId`, `langResName`) USING BTREE ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='语言资源名称表，用于描述每一种语言所需要设置的所有语言资源名称' AUTO_INCREMENT=100000 ROW_FORMAT=DYNAMIC;
+    # CREATE TABLE `languageresources` (`langResId`  bigint(11) NOT NULL AUTO_INCREMENT COMMENT '语言资源ID，唯一' ,`shopId`  bigint(20) NOT NULL COMMENT '所属店铺ID,0店铺为模板店铺，默认情况下，新店铺将从0店铺复制所有语言资源' ,`langCode`  varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '所属语言代码' ,`langResName`  varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '语言资源名称' ,`langResValue`  text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '语言资源值' ,PRIMARY KEY (`langResId`),UNIQUE INDEX `shopId_langCode_langResName` (`shopId`, `langCode`, `langResName`) USING BTREE ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='语言资源表，每一种语言均需要设置相同的语言资源，资源包括字符串，图片，视频，音频，当相应的语言资源发生变化，对应的Redis缓存及.js资源文件均失效' AUTO_INCREMENT=100000 ROW_FORMAT=DYNAMIC;
+    enableDataSource: true
+    #Specify global language configuration information
+    #The global language will be shared by all shops, Unless shopid specifically specifies a language list
+    languages:
+      # Specify the first language information(en-US) and langId
+      - langId: 1
+        #Specify language name
+        langName: English (US)
+        #Specify language code, must unique
+        langCode: en-US
+        #Specify language css class
+        langCssClass: "flag flag-us"
+        #Specify language remark
+        langRemark: "United States"
+        #Specify language is default, Only one language can be set as the default language
+        langIsDefault: false
+      # Specify the send language information(zh-CN) and langId
+      - langId: 2
+        langName: "\u7B80\u4F53\u4E2D\u6587"
+        langCode: zh-CN
+        langCssClass: "flag flag-cn"
+        langRemark: China
+        langIsDefault: true
+    #Specify a language list specifically for shopId
+    #If it is empty, it means that all shops share the global language list configuration
+    shopLanguages:
+      #Specify the language configuration list with shopid equal 0
+      0:
+        # Specify the first language information(en-US) and langId
+        - langId: 3
+          #Specify language name
+          langName: English (US)
+          #Specify language code, must unique
+          langCode: en-US
+          #Specify language css class
+          langCssClass: "flag flag-us"
+          #Specify language remark
+          langRemark: "United States"
+          #Specify language is default, Only one language can be set as the default language
+          langIsDefault: true
+
+
+  # Specify the unionsql freemarker component(FreemarkerUtil) configuration
+  freemarker:
+    # Specify freemarker appPath, That is,
+    # applying the Web to access the virtual directory
+    appPath: /
+    # Specify freemarker defaultTheme
+    defaultTheme: default
+    # Specify freemarker defaultCdnUrl
+    defaultCdnUrl:
+    # Specify freemarker tagsynta
+    #     0--Configuration.AUTO_DETECT_TAG_SYNTAX
+    #     1--Configuration.ANGLE_BRACKET_TAG_SYNTAX
+    #     2--Configuration.SQUARE_BRACKET_TAG_SYNTAX
+    #     10--Configuration.AUTO_DETECT_NAMING_CONVENTION
+    #     11--Configuration.LEGACY_NAMING_CONVENTION
+    #     12--Configuration.CAMEL_CASE_NAMING_CONVENTION
+    #     20--Configuration.LEGACY_INTERPOLATION_SYNTAX
+    #     21--Configuration.DOLLAR_INTERPOLATION_SYNTAX
+    #     22--Configuration.SQUARE_BRACKET_INTERPOLATION_SYNTAX
+    tagsynta: 0
+    # Specify freemarker templateExt
+    templateExt: .ftl
+    #Specify a list of freemaker template paths, separated by English commas, and the first one has the highest priority
+    template-paths: "d:/static/storage,classpath:/templates"
+    # Specify freemarker viewName
+    viewName: view
+    # Specify freemarker requestAndSessionAndViewThemeName
+    requestAndSessionAndViewThemeName: APP_CURRENT_THEME
+    # Specify freemarker templateExceptionHandler
+    templateExceptionHandler: RETHROW_HANDLER
+    # Specify theme service/cdnUrl service enable DataSource,if false is not use database
+    enableDataSource: false
+    #The {system} mybatis plus data source must be configured, and the following data table must be created in the {system} data source:
+    #must create tables:
+    #sql:
+    # CREATE TABLE `themes` (`themeId`  bigint(20) NOT NULL AUTO_INCREMENT ,`shopId`  bigint(20) NOT NULL DEFAULT 0 COMMENT '所属shopId' ,`themeName`  varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主题名称' ,PRIMARY KEY (`themeId`)) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci AUTO_INCREMENT=1 ROW_FORMAT=DYNAMIC;
+    # CREATE TABLE `cdnurls` (`cdnUrlId`  bigint(20) NOT NULL AUTO_INCREMENT ,`shopId`  bigint(20) NOT NULL DEFAULT 0 COMMENT '所属shopId' ,`cdnUrl`  varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'cdnUrl' ,PRIMARY KEY (`cdnUrlId`)) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci AUTO_INCREMENT=1 ROW_FORMAT=DYNAMIC
+    # Specify freemarker enable cache, if null is not use cache
+    enableCache: true
+    #Configure global variables, which can be used directly in all views
+    globalVariables:
+      appName: "我的应用"
+    #Specifies the custom label information configuration that is automatically registered in the freemaker page
+    customizeTags:
+      #Specify the first custom label, name: language, Format used in the page: <@language code="hshop_front_web_message" />
+      language:
+        #Specify the fully qualified class name corresponding to the current custom tag, which should be registered as a bean
+        #If it is not registered as a bean, then need to inject relevant properties into the custom tag through autowireds
+        clazz: "com.ihltx.utility.freemarker.tag.LanguageTag"
+        #Specify the properties and values of autowire when it is not registered as a bean
+        autowireds:
+          #Specify the i18nutil attribute (setter is required) will be injected bean of com.ihltx.utility.i18n.service.I18nUtil
+          i18nUtil: "com.ihltx.utility.i18n.service.I18nUtil"
+      #Specify the second custom label, name: testTag, Format used in the page:
+      # <@testTag method="recentBlog" pageSize="3">
+      #		<#list recentBlog as result>
+      #			<div>
+      #				${result_index} ---${result.status} ---${result.msg}
+      #			</div>
+      #		</#list>
+      #	</@testTag>
+      testTag:
+        clazz: "com.ihltx.utility.freemarker.tag.TestTag"
+    #shop themes configuration
+    shopThemes:
+      0: default
+    #shop cdn urls configuration
+  #    shopCdnUrls:
+  #      0:
+
+  # Specify the interceptor(include: ShopIdInterceptor , ThemeChangeInterceptor , LanguageChangeInterceptor) configuration
+  interceptor:
+    #Specify ShopIdInterceptor configuration
+    shopId:
+      #Specify whether ShopIdInterceptor is enabled
+      enable: true
+      #Specify whether redis is enabled for shopid interceptor,
+      #If redis is not enabled, you need to configure the shopid corresponding to the host port in the configuration [ihltx.shopidinterceptor.hosts].
+      #If it is not configured, the default shopId is 0
+      enableRedis: true
+      #Specify the redis server name used by shopid interceptor, which must be configured in advance through [ihltx.redis.server].
+      #In addition, in the database corresponding to the redis server,
+      #the mapping between the host product and shopid needs to be created in the following format.
+      #For example, www.ihltx.com:8000 corresponds to 10000 shopId, then key is [host:www.ihltx.com_8000], value is [10000].
+      redisName: shopidinterceptor
+      #Specifies whether reverse proxy is enabled, for example, using nginx reverse proxy
+      enableReverseProxy: true
+      #Specify host port configuration information
+      #Available only when enableRedis is false
+      hosts:
+        #The specified host name is www.ihltx.cn, the port is 8000, and the corresponding shopId is 0
+        "[host:www.ihltx.cn_8000]": 0
+        #The specified host name is www.ihltx.com, the port is 8000, and the corresponding shopId is 10000
+        "[host:www.ihltx.com_8000]": 10000
+    #Specify ThemeChangeInterceptor configuration
+    theme:
+      #Specify whether ThemeChangeInterceptor is enabled
+      enable: true
+    #Specify ThemeChangeInterceptor configuration
+    language:
+      #Specify whether LanguageChangeInterceptor is enabled
+      enable: true
+
+
+  # Specify the unionSql redis component(RedisUtil) redis connection information,
+  # allowing multiple redis connection information to be specified,
+  # which can later be obtained through the redisFactory.openSession() method,
+  # and default connection information must be specified.
+  redis:
+    #Specify whether to use the RedisConnectionFactory created by the redis server name specified in the [primary] configuration parameter to replace the RedisConnectionFactory automatically created by springboot
+    #If it is set to true, RedisTemplate and StringRedisTemplate will use the RedisConnectionFactory after substitution. Otherwise, they will not be replaced.
+    isSubstituteSpringBootRedisConnectionFactory: false
+    #Specify the redis primary server configuration name. If the corresponding redis server configuration name cannot be found, the redis connection will be made automatically using the primary server configuration name.
+    primary: default
+    # Specify redisCacheUtil component use redis cache key prefix , if null is not use redis cache key prefix
+    redisCacheKeyPrefix: rediscache
+    # Specify redisCacheUtil component  redis set key prefix of Cache key prefix  , if null is not use redis prefix
+    redisCacheKeyPrefixSetKeyPrefix: rediscacheprefix
+    # Specify redisCacheUtil component use redis server config name , if null is not use redis cache
+    redisCacheUtilRedisName: datasecondlevelcache
+    server:
+      default:
+        # Specify default redis host
+        host: 192.168.1.121
+        # Specify default redis port
+        port: 6379
+        # Specify default redis password
+        password: 123456
+        # Specify default redis database
+        database: 0
+        # Specify default redis conntion ssl
+        ssl: false
+        # Specify default redis conntion timeout
+        timeout: 3000
+        # Specify default redis conntion pool maxActive
+        maxActive: 1000
+        # Specify default redis conntion pool maxIdle
+        maxIdle: 500
+        # Specify default redis conntion pool minIdle
+        minIdle: 100
+        # Specify default redis conntion maxWait
+        maxWait: 30000
+        # Specify default redis conntion shutDownTimeout
+        # The maximum time to wait for the completion of task processing before closing the client connection.
+        # After that, whether the task is completed or not, it will be closed by the actuator. The default is 100ms
+        shutDownTimeout: 100
+        # Specify default redis conntion testOnBorrow
+        testOnBorrow: false
+        # Specify redis server mode
+        #  0 -- standalone mode , default
+        #  1 -- cluster mode, cluster mode can only use database 0. Then, the [database] configuration parameter is invalid
+        #  2 -- sentinel mode
+        redisServerMode: 0
+        #redis server cluster mode configuration
+        cluster:
+          #redis server cluster node list,configure the list of all nodes in the cluster
+          nodes: 192.168.1.121:6379,192.168.1.121:6380
+          #redis server cluster maxRedirects, maximum number of redirect connections, at least 1
+          maxRedirects: 1
+          #redis server sentinel mode configuration
+        sentinel:
+          #redis server sentinel node list
+          nodes: 192.168.1.121:6379,192.168.1.121:6380
+          #redis server sentinel master name
+          master: master
+
+      # Specify second redis config,  ditto
+      second:
+        host: 192.168.1.121
+        port: 6379
+        password: 123456
+        database: 1
+        ssl: false
+        timeout: 3000
+        maxActive: 1000
+        maxIdle: 500
+        minIdle: 100
+        maxWait: 30000
+        shutDownTimeout: 100
+        testOnBorrow: false
+
+      # Specify datasecondlevelcache redis config,  ditto
+      datasecondlevelcache:
+        host: 192.168.1.121
+        port: 6379
+        password: 123456
+        database: 2
+        ssl: false
+        timeout: 3000
+        maxActive: 1000
+        maxIdle: 500
+        minIdle: 100
+        maxWait: 30000
+        shutDownTimeout: 100
+        testOnBorrow: false
+
+      # Specify shopidinterceptor redis config,  ditto
+      shopidinterceptor:
+        host: 192.168.1.121
+        port: 6379
+        password: 123456
+        database: 15
+        ssl: false
+        timeout: 3000
+        maxActive: 1000
+        maxIdle: 500
+        minIdle: 100
+        maxWait: 30000
+        shutDownTimeout: 100
+        testOnBorrow: false
+
+      # Specify session redis config,  ditto
+      session:
+        host: 192.168.1.121
+        port: 6379
+        password: 123456
+        database: 14
+        ssl: false
+        timeout: 3000
+        maxActive: 1000
+        maxIdle: 500
+        minIdle: 100
+        maxWait: 30000
+        shutDownTimeout: 100
+        testOnBorrow: false
+
+
+  # Specify task configuration
+  task:
+    # Specify task enabled
+    enabled: true
+    # Specify task check interval time , unit: seconds
+    checkInterval: 10
+    # Specify task finish timeout time , unit: seconds
+    timeout: 600
+    # Specify task enable DataSource,if false is not use database, will use configuration
+    #The {system} mybatis plus data source must be configured, and the following data table must be created in the {system} data source:
+    #must create tables:
+    #sql: CREATE TABLE `tasks` (`taskId`  int(11) NOT NULL AUTO_INCREMENT ,`shopId`  bigint(20) NOT NULL DEFAULT 0 COMMENT '所属ShopId' ,`taskName`  varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '任务名称' ,`taskType`  tinyint(4) NOT NULL DEFAULT 0 COMMENT '任务类型   0--一次性任务    1--周期任务' ,`taskExecType`  tinyint(4) NOT NULL DEFAULT 0 COMMENT '任务执行类型，0--通用任务(需要继承BaseTask类并通过taskClass指定执行类，实现run方法并在run方法中调用supper.finish()完成任务)  1--URL GET任务(需要直接在taskUrl中指定要执行的url及参数)  2--URL POST任务(需要在taskUrl中指定要执行的url，并通过taskParams以json格式指定提交的参数)' ,`taskClass`  varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '任务执行类完全限定名称，需要继承BaseTask抽像类并实现run方法' ,`taskParams`  text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '任务参数，如果为通用任务自定义格式，如果为URL POST/GET任务则以json格式指定参数' ,`taskUrl`  varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'URL任务时，指定url' ,`taskStartTime`  datetime NOT NULL COMMENT '任务开始时间，从此任务开始执行任务' ,`taskInterval`  int(11) NOT NULL DEFAULT 0 COMMENT '任务间隔时间，单位：分钟   0--仅一次性任务可用' ,`taskStatus`  tinyint(4) NOT NULL DEFAULT 0 COMMENT '任务状态   0--未开始    1--进行中     2--已完成' ,`taskProgress`  tinyint(4) NOT NULL DEFAULT 0 COMMENT '任务进度，0表示未开始    100表示已完成： 目前未使用' ,`taskEnabled`  tinyint(4) NOT NULL DEFAULT 1 COMMENT '任务是否启用，仅启用的任务才会执行  0--禁用  1--启用' ,`taskDeleted`  tinyint(4) NOT NULL DEFAULT 0 COMMENT '是否删除  0--否  1--是' ,`taskIsDataBase`  tinyint(4) NOT NULL DEFAULT 1 COMMENT '是否数据库任务' ,`taskExecStartTime`  bigint(20) NOT NULL DEFAULT 0 COMMENT '任务执行开始时间' ,`taskExecSuccess`  tinyint(4) NOT NULL DEFAULT 0 COMMENT '任务执行结果  0--失败  1--成功' ,`taskExecMessage`  text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '任务执行结果信息' ,`taskCreated`  datetime NOT NULL COMMENT '任务创建时间' ,`taskUpdated`  datetime NOT NULL ,PRIMARY KEY (`taskId`))ENGINE=InnoDB DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='后台系统任务表' AUTO_INCREMENT=10000 ROW_FORMAT=DYNAMIC;
+    #sql: CREATE TABLE `tasklogs` (`taskLogId`  bigint(20) NOT NULL AUTO_INCREMENT COMMENT '任务日志ID' ,`shopId`  bigint(20) NOT NULL DEFAULT 0 COMMENT '所属shopid' ,`taskId`  int(11) NOT NULL COMMENT '任务ID' ,`taskIsDataBase`  tinyint(4) NOT NULL DEFAULT 0 COMMENT '是否数据库任务' ,`taskLogStartTime`  bigint(20) NOT NULL DEFAULT 0 COMMENT '任务开始执行时间，时间戳' ,`taskLogDuration`  int(11) NOT NULL COMMENT '任务持续时间，单位：毫秒' ,`taskLogExecSuccess`  tinyint(4) NOT NULL DEFAULT 0 COMMENT '任务执行结果  0--失败  1--成功' ,`taskLogExecMessage`  text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '任务执行结果信息' ,`taskLogCreated`  datetime NOT NULL COMMENT '任务执行时间' ,PRIMARY KEY (`taskLogId`)) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='任务日志表' AUTO_INCREMENT=1 ROW_FORMAT=DYNAMIC;
+    enableDataSource: true
+    #Specify task configuration list
+    list:
+      #Specify the first task information, taskId should remain unique
+      - taskId: 1
+        #Specify the shopId to which the task belongs
+        shopId: 0
+        #Specify task name
+        taskName: "test task"
+        #Specify the task type.
+        #   0  -- the task to be executed only once after each system startup
+        #   1  -- the task to be executed periodically
+        taskType: 0
+        #Specify task execute type
+        #   0  -- For general tasks, you need to specify a fully restricted class inherited from [com.ihltx.utility.task.task.BaseTask],
+        #         and execute the task through its run method through multithreading,Specify the class to execute through taskClass,
+        #         Specify params to execute through taskParams
+        #   1  -- url get task,Specify the url to execute through taskUrl ,
+        #         Specify params to execute through taskParams, taskParams format is json , for example: {"name":"李四","age":12}
+        #   2  -- url post task,Specify the url to execute through taskUrl
+        #         Specify params to execute through taskParams, taskParams format is json , for example: {"name":"李四","age":12}
+        taskExecType: 0
+        #Valid only for generic tasks, specify the fully qualified class name to execute
+        #It must inherit from [com.ihltx.utility.task.task.BaseTask], for example : com.ihltx.utility.task.task.TestTask
+        taskClass: com.ihltx.utility.task.task.TestTask
+        #Specify task parameters
+        # If it is a general task, specify multiple parameters separated by English commas , for example: 1,2,3 . These parameters will be passed to the fully qualified task class. You can get all the information of the task, including the passed parameters, through gettask()
+        # If it is a URL get or post task, the parameters must be in JSON format, for example: {"name":"李四","age":12}. These parameters passed during the execution of the URL task can be received through the named parameters of the action method
+        taskParams: 1,2,3
+        #Specify the time when the task starts to execute, and only after that time will the task be executed
+        taskStartTime: "2021-01-03 14:08:00"
+        # Specifies the cycle execution interval of the task. Only periodically tasks are valid, unit: minutes
+        taskInterval: 1
+        #Specify whether the task is enabled. Only enabled tasks will be executed
+        taskEnabled: true
+      #Specify the second task information
+      - taskId: 2
+        shopId: 0
+        taskName: "config taskGet1"
+        taskType: 1
+        taskExecType: 1
+        taskParams:
+        taskUrl: "http://www.ihltx.cn:8000/home/gettask"
+        taskStartTime: "2021-08-16 10:00:00"
+        taskInterval: 1
+        taskEnabled: true
+
+  #sessionredis configuration
+  sessionredis:
+    #Specify the redis server name used by session redis, which must be configured in advance through [ihltx.redis.server].
+    redisServerName: session
+    #Specify maxInactiveIntervalInSeconds
+    maxInactiveIntervalInSeconds: 1800
+    #Specify redisNamespace
+    redisNamespace: "spring:session"
+    #Specify flushMode
+    flushMode: "ON_SAVE"
+    #Specify cleanupCron
+    cleanupCron: "0 * * * * *"
+    #Specify saveMode
+    saveMode: "ON_SET_ATTRIBUTE"
+
+  #Sensitive configuration
+  sensitive:
+    # Specify Sensitive enable status
+    enable: true
+    #Sensitive word matching type
+    # 1 --  Minimum matching
+    #       For example, for the string "意大利黑手党" to be checked, if there are three sensitive words in the sensitive thesaurus, such as 意大利, 黑手党 and 意大利黑手党, the minimum matching will check two sensitive words: 意大利 and 黑手党
+    # 2 --  Maximum match
+    #       For example, for the string "意大利黑手党" to be checked, if there are three sensitive words in the sensitive thesaurus, such as 意大利, 黑手党 and 意大利黑手党, the minimum matching will check one sensitive word: 意大利黑手党
+    matchType: 1
+    # Specify whether to use standalone sensitive words for each shopid
+    #   true  -- standalone sensitive words is used. Only when shopId has no standalone sensitive words, the global sensitive words is used
+    #   false -- use global sensitive words
+    isStandalonePerShop: false
+    # Specify Sensitive enable DataSource,if false is not use database
+    #The {system} mybatis plus data source must be configured, and the following data table must be created in the {system} data source:
+    #must create tables:
+    # CREATE TABLE `sensitive_words` (`id` bigint NOT NULL AUTO_INCREMENT , `shopId`  bigint(20) NOT NULL COMMENT '所属ShopId' ,`words` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '敏感词列表以,间隔' ,PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci AUTO_INCREMENT=1 ROW_FORMAT=DYNAMIC;
+    enableDataSource: false
+    # Specify Sensitive enable cache, if null is not use cache
+    enableCache: true
+    # Specify global sensitive words, sensitive words are separated by English commas.
+    words: "法轮功,亡党亡国"
+    # Specify shop standalone sensitive words
+    shopWords:
+      # Specify the standalone sensitive words used by the store with shopid = 0, sensitive words are separated by English commas.
+      0: "黑手党,黑逼,黑手党黑逼"
+
+
+  #acl configuration
+  acl:
+    #The {user} mybatis plus data source must be configured, and the following data table must be created in the {user} data source:
+    #must create tables:
+    #sql: CREATE TABLE `sys_users` (`userId`  bigint(19) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '用户ID' ,`userName`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户名，必须为邮箱，主要为考虑产品全球化，基于用户名邮箱注册时需要验证邮箱验证码' ,`mobile`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '帐号手机号码，未绑定时允许为空，绑定时必须唯一，并通过手机验证码进行绑定验证' ,`nickName`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '昵称，可为英文或本地文字' ,`headIcon`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '头像' ,`password`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '密码' ,`salt`  int(11) NOT NULL COMMENT '密码加盐值' ,`disabled`  tinyint(4) NOT NULL COMMENT '帐号是否禁用  0--正常  1--禁用' ,`deleted`  tinyint(4) NOT NULL COMMENT '帐号是否软删除  0--正常  1--已删除' ,`lastLoginTime`  datetime NULL DEFAULT NULL COMMENT '帐号上次登录时间' ,`shopId`  bigint(20) NOT NULL DEFAULT 0 COMMENT '帐号是基于哪个shopId注册或添加的' ,`created`  datetime NOT NULL COMMENT '帐号添加/注册时间' ,PRIMARY KEY (`userId`)) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8 COLLATE=utf8mb4_general_ci COMMENT='用户表' AUTO_INCREMENT=1000000 ROW_FORMAT=DYNAMIC;
+    #sql: CREATE TABLE `sys_modules` (`moduleId` BIGINT NOT NULL AUTO_INCREMENT COMMENT '模块ID', `language` VARCHAR(20) NOT NULL DEFAULT 'zh-CN' COMMENT '所属语言代码，例如：zh-CN', `shopId` BIGINT NOT NULL DEFAULT -1 COMMENT '所属店铺ID，-1表示为全局模块，所有其他店铺模块均需要基于全局模块进行安装', `moduleCode` VARCHAR(50) NOT NULL COMMENT '模块代码，在同一个language及shopId下，必须唯一', `moduleTermType` TINYINT NOT NULL DEFAULT 0 COMMENT '模块所属终端类型，  0--未知终端(暂未使用)   1--PC终端   2--WAP终端   3--微信终端    4--APP终端(包括IOS/Andriod)   100--后台管理系统    ', `moduleName` VARCHAR(40) NOT NULL COMMENT '模块名称，用于页面显示，模块名称不允许使用`反引号', `moduleShortName` VARCHAR(10) NOT NULL COMMENT '模块简称，用于菜单', `moduleVersion` VARCHAR(10) NOT NULL DEFAULT '1.0.0' COMMENT '功能模块的版本号，主要用于在页面中呈现模块版本', `moduleShopVersion` DECIMAL(5,2) NULL DEFAULT 1.01 COMMENT '模块最小需要的店铺shopVersion版本号，如果shopVersion低于此版本号，则模块不可见或不可用，只有升级到最新版本才可用', `moduleIcon` VARCHAR(100) NULL COMMENT '模块图标，通常保存css样式类', `moduleUrl` VARCHAR(255) NOT NULL COMMENT '模块url，以/打头的访问路径，不包含urlrewrite后缀，也不包含querystring', `moduleQueryString` VARCHAR(255) NULL COMMENT '模块查询串参数，允许以*代表除&=之外的一个单词，允许以#代表数字包含+-符号', `moduleParentId` BIGINT NOT NULL DEFAULT 0 COMMENT '父模块ID，如果父模块ID为0表示为顶级模块，通常为菜单', `moduleTreePath` VARCHAR(255) NOT NULL COMMENT '模块树路径，以`反引号间隔的树路径，以此决定模块最多6层', `moduleRemark` TEXT NULL COMMENT '模块备注', `moduleIsMenu` TINYINT NOT NULL DEFAULT 0 COMMENT '模块是否菜单   0--否   1--是，非菜单功能模块通常隶属于相应的菜单功能模块', `moduleSort` INT NOT NULL COMMENT '模块排序，在同一级菜单下的排序，越小越靠前', `moduleProductCategory` INT NOT NULL DEFAULT 0 COMMENT '模块隶属的产品类型(暂定8种产品)，00000000--未知(保留)      00000001(1)--官网     00000010(2)--B2C商城      00000100(4)--分销商城      00001000(8)--B2B2C商城  00000011(3)--B2C商城&官网    00000101--分销商城&官网，以此类推', `moduleIsCustomized` TINYINT NOT NULL DEFAULT 0 COMMENT '是否定制功能模块   0--否    1--是    定制功能模块不能通过系统升级方式安装到shop，必须通过特殊购买途径安装到shop', `moduleIsPlatform` TINYINT NOT NULL DEFAULT 0 COMMENT '是否平台功能模块，0--否  1--是，如果是平台功能模块，则仅能安装到shopId=0店铺上', `moduleIsDeleted` TINYINT NOT NULL DEFAULT 0 COMMENT '是否软删除  0 - 正常   1 - 删除', `moduleCreated` DATETIME NULL COMMENT '模块创建时间', PRIMARY KEY (`moduleId`),  UNIQUE INDEX `language_shopId_moduleCode` (`language` ASC, `shopId` ASC, `moduleCode` ASC)) ENGINE = InnoDB COMMENT = '功能模块表，包括各终端菜单，属于菜单下各非菜单功能模块';
+    #sql: CREATE TABLE `sys_roles` (`roleId` BIGINT NOT NULL AUTO_INCREMENT COMMENT '角色ID', `language` VARCHAR(20) NOT NULL COMMENT '角色所属语言代码，例如 zh-CN', `shopId` BIGINT NOT NULL DEFAULT 0 COMMENT '角色所属shopId', `roleName` VARCHAR(20) NOT NULL COMMENT '角色名称', `roleTermType` TINYINT NOT NULL DEFAULT 0 COMMENT '角色所属终端类型，  0--未知终端(暂未使用)   1--PC终端   2--WAP终端   3--微信终端    4--APP终端(包括IOS/Andriod)   100--后台管理系统    ', `roleRemark` TEXT NULL COMMENT '角色备注', `roleIsDeleted` TINYINT NOT NULL DEFAULT 0 COMMENT '角色是否软删除  0--否  1--是', `roleCreated` DATETIME NULL COMMENT '角色创建时间', PRIMARY KEY (`roleId`)) ENGINE = InnoDB COMMENT = '用户角色表';
+    #sql: CREATE TABLE `sys_role_modules` (`roleModuleId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'ID', `language` VARCHAR(20) NOT NULL COMMENT '所属语言代码', `shopId` BIGINT NOT NULL DEFAULT 0 COMMENT '所属shopId', `roleId` BIGINT NOT NULL COMMENT '所属角色ID', `moduleId` BIGINT NOT NULL COMMENT '所属模块ID', PRIMARY KEY (`roleModuleId`)) ENGINE = InnoDB COMMENT = '角色模块表';
+    #sql: CREATE TABLE `sys_user_roles` (`userRoleId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'ID', `language` VARCHAR(20) NOT NULL COMMENT '所属语言代码', `shopId` BIGINT NOT NULL COMMENT '所属shopId', `userId` BIGINT NOT NULL, `roleId` BIGINT NOT NULL,  PRIMARY KEY (`userRoleId`)) ENGINE = InnoDB COMMENT = '用户角色表';
+    #sql: CREATE TABLE `sys_user_modules` (`userModuleId` BIGINT NOT NULL AUTO_INCREMENT, `language` VARCHAR(20) NOT NULL COMMENT '所属语言代码', `shopId` BIGINT NOT NULL COMMENT '所属shopId', `userId` BIGINT NOT NULL COMMENT '所属userId',  `moduleId` BIGINT NOT NULL COMMENT '所属moduleId',  PRIMARY KEY (`userModuleId`)) ENGINE = InnoDB COMMENT = '用户功能模块表，用于指定用户拥有的除角色之外的特殊功能模块权限';
+    #sql: CREATE TABLE `sys_login_failures` (`loginId` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'ID', `userName` VARCHAR(100) NOT NULL COMMENT '登录用户名', `failureTimes` INT NOT NULL DEFAULT 0 COMMENT '登录失败次数', `loginIp` VARCHAR(50) NOT NULL COMMENT '登录IP', `loginTime` DATETIME NOT NULL COMMENT '登录时间', PRIMARY KEY (`loginId`)) ENGINE = InnoDB COMMENT = '用户登录失败表';
+
+    #Specify whether acl permission access control is enabled
+    enable: true
+    #Specify the variable name of the JWT token passed in the client and server using the header or request parameter or cookie
+    tokenName: token
+    #Specify the token optimization level through HTTP headers or request parameters or cookies.
+    tokenOrder: "header,request,cookie"
+    #Specify the login page url,If the url corresponding a controller method, a custom login page is used
+    loginPageUrl: "/login"
+    #Specify the ajax login page url,If the url corresponding a controller method, a custom ajax login page is used
+    loginPageUrlForAjax: "/login_ajax"
+    #Specify login processing page url,If the url corresponding a controller method, a custom login processing page is used
+    loginProcessingUrl: "/login_processing"
+    #Specify ajax login processing page url,If the url corresponding a controller method, a custom ajax login processing page is used
+    loginProcessingUrlForAjax: "/login_processing_ajax"
+    #Specify login success page url,If the url corresponding a controller method, a custom login success page is used
+    loginSuccessUrl: "/home/index"
+    #Specify login failure page url,If the url corresponding a controller method, a custom login failure page is used
+    loginFailureUrl:  "/login?error"
+    #Specify logout page url,If the url corresponding a controller method, a custom logout page page is used
+    logoutUrl: "/logout"
+    #Specify logout success page url,If the url corresponding a controller method, a custom logout success page is used
+    logoutSuccessUrl: "/login"
+
+    #Specify the number of retries for the same IP login user name within the lock time range
+    #If set to less than or equal to 0, login failure verification is disabled
+    loginSameIpRetryUserNameNumber: 100
+    #Specify the number of login retries
+    #If the specified number of times is exceeded, the current IP and user name will be locked for the specified minutes
+    #If set to less than or equal to 0, login failure verification is disabled
+    loginSameUserNameRetryTimes: 6
+    #If the specified number of times is exceeded, the current IP and user name will be locked for the specified minutes
+    loginLockMinutes: 20
+    #Specify invalid session page url,If the url corresponding a controller method, a custom invalid session page is used
+    invalidSessionUrl: "/login"
+    #Specify the username parameter name in the login page
+    userNameParameter: "userName"
+    #Specify the password parameter name in the login page
+    passwordParameter: "password"
+    #Specify whether the rememberMe parameter is enabled in the login page
+    rememberMe: true
+    #Specify the rememberMe parameter name in the login page
+    rememberMeParameter: rememberMe
+    #Specify the csrf parameter variable name used in the login page and session
+    csrfParameterName: _csrf
+    #Verification code configuration information in login page
+    verificationCode:
+      #Specify whether verification codes are enabled
+      enable: true
+      #Specify the verification code type, and the allowed values are:
+      #        0 - LOWERLETTER, 1 - UPPERLETTER, 2 - NUMBER, 3 - SYMBOLS, 4 - LOWERLETTER_UPPERLETTER, 5 - LOWERLETTER_NUMBER, 6 - LOWERLETTER_SYMBOLS, 7 - UPPERLETTER_NUMBER, 8 - UPPERLETTER_SYMBOLS, 9 - NUMBER_SYMBOLS, 10 - LOWERLETTER_UPPERLETTER_NUMBER , 11 - LOWERLETTER_UPPERLETTER_SYMBOLS , 12 - LOWERLETTER_NUMBER_SYMBOLS , 13 - UPPERLETTER_NUMBER_SYMBOLS , 14 - LOWERLETTER_UPPERLETTER_NUMBER_SYMBOLS
+      type: 2
+      #Specify the key when saving the verification code
+      key: verificationCode
+      #Specify verification code length
+      length: 4
+      #Specify the verification code parameter name in the login page
+      parameterName: verificationCode
+      #Specify verification code expires, unit: seconds
+      expires: 60
+      #Specify the access url of the verification code image,If the url corresponding a controller method, a custom verification code image is used
+      url: "/verificationCode"
+      #Specify verification code image width, unit: px
+      width: 100
+      #Specify verification code image height, unit: px
+      height: 30
+      #Specify verification code image disturbLineNumber
+      disturbLineNumber: 100
+      #Specify verification code image font name
+      fontName: "Fixedsys"
+      #Specify verification code image font size
+      fontSize: 32
+    #Configure urls that can be accessed directly.
+    #These urls do not need to be in the modules list.
+    #It is allowed to use ** to represent multi-level directories and files, and * to represent a directory or file name
+    permitUrls:
+      - /view/**
+      - /*/view/**
+      - /*/runtime/**
+      - /swagger-ui/**
+      - /swagger-resources
+      - /swagger-resources/**
+      - /v2/**
+    # Specify jwt component(JwtUtil) configuration of acl
+    jwt:
+      # Specify jwt expires and cookie expires , unit: seconds
+      expireSeconds: 604800
+      # Specify jwt secertType: HMAC256|HMAC384|HMAC512
+      secertType: HMAC256
+      # Specify jwt secertKey
+      secertKey: 9dacba0ee1fa655f317ebf2278f7fdf4
+
+  #apiversion configuration
+  apiversion:
+    #Specify whether apiversion is enabled
+    enable: true
+    #Specify the default version number in apiversion. Three or four digits are allowed.
+    defaultVersion: 1.0.0
+    #Specifies the variable name that passes the version number through the HTTP header or request parameter or cookie.
+    versionName: version
+    #Specifies the optimization level through HTTP headers or request parameters or cookies.
+    versionOrder: "request,header,cookie"
+
+  #ueditor configuration
+  ueditor:
+    #Specify the path to the ueeditor folder of the ueditor online editor.
+    rootPath: "classpath:/templates/view"
+
+  #urlrewrite configuration
+  urlrewrite:
+    #Specify the UrlRewrite configuration file path and file name, which should be an XML file.
+    path: "classpath:/urlrewrite.xml"
+
+  #swagger configuration
+  # visit url:  /swagger-ui/index.html
+  swagger:
+    #Specifies whether swagger is enabled
+    enabled: true
+    #Specifies whether to scan API classes based on the Api.class annotation
+    # true   -- use Api.class annotation scan
+    # false  -- Scan using the package path defined in basePackages
+    withApiAnnotation: true
+    #valid when withApiAnnotation is false, specify the scanned package path, and allow to scan in semicolon Specify multiple packages at intervals
+    basePackages:
+    #Specify api contact name
+    contactName: liulin
+    #Specify api contact url
+    contactUrl:
+    #Specify api contact email
+    contactEmail:
+    #Specify api document title
+    title: "汉商城 - 商户应用API文档"
+    #Specify api document description
+    description: "汉商城 - 商户应用API文档描述"
+    #Specify api document version
+    version: 1.0.1
+
+
+  # Specify elasticsearch configuration
+  elasticsearch:
+    #Specify whether elasticsearch is enabled
+    enable: true
+    # Specify elasticsearch clusterName
+    clusterName: elasticsearch
+    # Specify elasticsearch clusterNodes
+    clusterNodes: localhost:9200
+    # Specify elasticsearch all clusterNodes Schema
+    clusterNodeSchema: http
+    # Specify elasticsearch clusterNode connectTimeout, unit: seconds
+    connectTimeout: 60
+    # Specify elasticsearch clusterNode socketTimeout, unit: seconds
+    socketTimeout: 60
+    # Specify elasticsearch clusterNode connectionRequestTimeout, unit: seconds
+    connectionRequestTimeout: 60
