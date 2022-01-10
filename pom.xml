@@ -13,7 +13,7 @@
 
     <groupId>com.ihltx</groupId>
     <artifactId>spring-boot-starter-ihltx</artifactId>
-    <version>0.0.1.RELEASE</version>
+    <version>0.0.2.RELEASE</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -218,7 +218,7 @@
         <dependency>
             <groupId>com.ihltx</groupId>
             <artifactId>utility</artifactId>
-            <version>0.0.3.RELEASE</version>
+            <version>0.0.2.RELEASE</version>
         </dependency>
 
     </dependencies>
