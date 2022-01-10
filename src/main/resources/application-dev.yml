@@ -140,6 +140,8 @@ ihltx:
 
 
   #mail configuration
+  # qq: smtp.163.com 465  84611913@qq.com         peghzxcqzmdjbjig
+  # 163: smtp.163.com 465  mingnuo@163.com        MFQMRZEFGUUXFVSU
   mail:
     #Specify mail delivery protocol,for exampl: smtp
     protocol: smtp
@@ -150,7 +152,7 @@ ihltx:
     #Specify the username to use for sending mail
     username: 84611913@qq.com
     #Specify the password to use for sending mail
-    password: 6787879998090909
+    password: peghzxcqzmdjbjig
     #Specify the default encoding to use for sending mail
     defaultEncoding: utf-8
     #Specify the email address of the sender
