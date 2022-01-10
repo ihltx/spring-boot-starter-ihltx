@@ -22,7 +22,7 @@ import org.springframework.context.annotation.Primary;
 @EnableConfigurationProperties(FreemarkerConfig.class)
 @SuppressWarnings("all")
 @ComponentScan(basePackages = {"com.ihltx.utility.freemarker"})
-@MapperScan(basePackages = {"com.ihltx.utility.web.mapper"})
+@MapperScan(basePackages = {"com.ihltx.utility.freemarker.mapper"})
 @ImportAutoConfiguration(classes = {I18nAutoConfiguration.class})
 public class FreemarkerAutoConfiguration {
 
